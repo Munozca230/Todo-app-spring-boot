@@ -1,0 +1,28 @@
+# Maven target directory
+/target/
+
+# IDE files
+.idea/
+*.iml
+*.iws
+*.ipr
+*.class
+
+# Logs
+/logs/
+
+# Compiled bytecode
+*.class
+
+# Dependencies
+/bin/
+/lib/
+
+
+# Maven build files
+.mvn/
+mvnw
+mvnw.cmd
+
+# macOS files
+.DS_Store
