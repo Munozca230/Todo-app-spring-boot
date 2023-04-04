@@ -52,4 +52,20 @@ public class TodoItemService {
         }
         return true;
     }
+
+    public boolean completeTodo(TodoItem todoItem) {
+        if (todoItem.getId()!=null) {
+            Optional<TodoItem> item = todoItemRepository.findById(todoItem.getId());
+            if (item.isPresent()) {
+                TodoItem updatedItem = item.get();
+                updatedItem.setIsComplete(!todoItem.getIsComplete());
+                todoItemRepository.save(updatedItem);
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+        return true;
+    }
 }

@@ -34,5 +34,14 @@ public class TodoFormController {
                 : HttpStatus.NOT_FOUND);
     }
 
+    @PutMapping("/complete-todo/{id}")
+    public ResponseEntity<Void> completeTodo(@RequestBody TodoItem todoItem) {
+        return new ResponseEntity<Void>(todoItemService.completeTodo(todoItem)
+                ? HttpStatus.OK
+                : HttpStatus.NOT_FOUND);
+    }
+
+
+
 
 }

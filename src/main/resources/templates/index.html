@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Todo List</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-
-</head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script></head>
     <body>
     <div class="container my-5">
         <h1 class="text-center">Todo List</h1>
@@ -19,15 +19,15 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:attr="todoId=${todo.id}" th:each="todo : ${todos}">
+            <tr th:class="${todo.isComplete} ? 'table-success' : ''" th:attr="todoId=${todo.id}, todoIsComplete=${todo.isComplete}" th:each="todo : ${todos}">
                 <td th:text="${todo.description}"></td>
-                <td th:text="${todo.createdAt}"></td>
-                <td th:text="${todo.updatedAt}"></td>
+                <td th:text="${#temporals.format(todo.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:text="${#temporals.format(todo.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
                 <td>
-                    <button type="button" class="btn btn-sm btn-success" th:if="${todo.isComplete != true}">
+                    <button type="button" class="btn btn-sm" th:classappend="${todo.isComplete} ? 'btn-secondary' : 'btn-success'" id="btnComplete">
                         <span class="oi oi-check"></span>
                     </button>
-                    <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal" id="btnEdit">
+                    <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal" th:if="${todo.isComplete != true}" id="btnEdit">
                         <span class="oi oi-pencil"></span>
                     </button>
                     <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" id="btnDelete">
@@ -46,7 +46,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addModalLabel">Add Todo</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -69,7 +69,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editModalLabel">Edit Todo</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -93,8 +93,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteModalLabel">Confirm Delete Todo</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -105,13 +105,12 @@
                         <input type="hidden" name="_method" value="DELETE"/>
                         <button id="deleteTodoItem" type="submit" class="btn btn-danger">Delete</button>
                     </form>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
     <script type="text/javascript" th:src="@{/main.js}"></script>
     </body>
