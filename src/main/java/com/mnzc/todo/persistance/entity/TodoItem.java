@@ -2,13 +2,13 @@ package com.mnzc.todo.persistance.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-
+import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.time.Instant;
 
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "todo_items")
 public class TodoItem implements Serializable {
 
@@ -23,5 +23,12 @@ public class TodoItem implements Serializable {
     private Instant createdAt;
 
     private Instant updatedAt;
+
+    public TodoItem(String description) {
+        this.description = description;
+        this.isComplete = false;
+        this.createdAt = Instant.now();
+        this.updatedAt = null;
+    }
 
 }

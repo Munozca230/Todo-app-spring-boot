@@ -22,15 +22,34 @@ public class TodoItemService {
         return todoItemRepository.findById(id);
     }
 
-    public TodoItem save(TodoItem todoItem) {
-        if (todoItem.getId() == null)
-            todoItem.setCreatedAt(Instant.now());
-        todoItem.setUpdatedAt(Instant.now());
-
-        return todoItemRepository.save(todoItem);
+    public void save(TodoItem todoItem) {
+        if (todoItem.getId()==null) {
+            TodoItem item = new TodoItem(todoItem.getDescription());
+            todoItemRepository.save(item);
+        }
     }
 
-    public void delete(TodoItem todoItem) {
-        todoItemRepository.delete(todoItem);
+    public boolean delete(String id) {
+        return getById(Long.valueOf(id)).map(todoItem -> {
+            todoItemRepository.deleteById(Long.valueOf(id));
+            return true;
+        }).orElse(false);
+    }
+
+    public boolean update(TodoItem todoItem) {
+        if (todoItem.getId()!=null) {
+            Optional<TodoItem> item = todoItemRepository.findById(todoItem.getId());
+            if (item.isPresent()) {
+                TodoItem updatedItem = item.get();
+                updatedItem.setDescription(todoItem.getDescription());
+                updatedItem.setUpdatedAt(Instant.now());
+                todoItemRepository.save(updatedItem);
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+        return true;
     }
 }
