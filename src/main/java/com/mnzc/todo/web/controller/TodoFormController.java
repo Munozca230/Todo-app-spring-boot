@@ -7,12 +7,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "*")
 public class TodoFormController {
 
     @Autowired
     private TodoItemService todoItemService;
+
+    @GetMapping("/all")
+    public ResponseEntity<List<TodoItem>> getAll() {
+        return ResponseEntity.ok(todoItemService.findAll());
+    }
 
     @PostMapping("/create-todo")
     public ResponseEntity<Void> createTodo(@RequestBody TodoItem todoItem) {
@@ -40,8 +47,4 @@ public class TodoFormController {
                 ? HttpStatus.OK
                 : HttpStatus.NOT_FOUND);
     }
-
-
-
-
 }

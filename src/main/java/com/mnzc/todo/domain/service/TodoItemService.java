@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -67,5 +68,9 @@ public class TodoItemService {
             return false;
         }
         return true;
+    }
+
+    public List<TodoItem> findAll() {
+        return todoItemRepository.findAll();
     }
 }
